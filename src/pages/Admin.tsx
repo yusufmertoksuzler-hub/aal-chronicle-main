@@ -105,6 +105,23 @@ const Admin = () => {
     }
   };
 
+  const handleDownloadJSON = () => {
+    const dataStr = JSON.stringify(articles, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+    const exportFileDefaultName = 'articles.json';
+
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+
+    toast({
+      title: "JSON Downloaded",
+      description: "IMPORTANT: Replace 'src/data/articles.json' with this downloaded file to update the live website."
+    });
+  };
+
   const formatContent = (tag: string) => {
     if (!editingArticle) return;
     const selection = window.getSelection();
@@ -442,6 +459,13 @@ const Admin = () => {
           >
             <Plus size={16} />
             New Article
+          </button>
+          <button
+            onClick={handleDownloadJSON}
+            className="ml-4 flex items-center gap-2 px-4 py-2 text-sm font-medium bg-secondary text-secondary-foreground rounded-sm hover:bg-secondary/80 transition-colors"
+          >
+            <Save size={16} />
+            Export JSON
           </button>
         </div>
 
